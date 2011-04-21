@@ -6,10 +6,12 @@ Your Django became to slow?
 
 Install
 ========
-pip install pyprof2calltree
+add this to your settings.py
 
-INSTALLED_APPS += ['profiling']
-MIDDLEWARE_CLASSES += ['profiling.middleware.InstrumentMiddleware']
+	INSTALLED_APPS += ['profiling']
+	MIDDLEWARE_CLASSES += ['profiling.middleware.InstrumentMiddleware']
+
+	pip install pyprof2calltree for cachgrinder
 
 How to do a profiling run
 --------------------------
@@ -22,7 +24,7 @@ How to do a profiling run
 
 Inspired by
 ----------- 
-http://lurkingideas.net/profiling-django-projects-cachegrind/
+	http://lurkingideas.net/profiling-django-projects-cachegrind/
 
 
 CacheGrinder
@@ -34,6 +36,6 @@ CacheGrinder
 
 additional Profiling Resources:
 -------------------------------
-
+	TBD
 
 

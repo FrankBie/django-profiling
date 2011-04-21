@@ -1,24 +1,27 @@
+# -*- coding: utf-8 -*-
+import cProfile
 from datetime import datetime
 import os, errno
-import cProfile
-# -*- coding: utf-8 -*-
-import tempfile
 import logging as log
+import tempfile
 
 tempdir = tempfile.gettempdir()
 
 class InstrumentMiddleware(object):
     
     def process_request(self, request):
-    
+        #ignore media
         if self._is_path_ignoreable(request, ['/media', '/static']):
             return
+        # activate profiling?
         if 'cprofile' in request.GET:
             log.debug("activate profiling")
             request.session['cprofile'] = True
+        # stop profiling
         if 'cprofile-stop' in request.GET and request.session.get('cprofile'):
             log.debug("deactivate profiling")
             request.session['cprofile'] = False
+            
         if hasattr(request, 'session') and request.session.get('cprofile'): 
             if not hasattr(request, 'profiler'):
                 log.debug("start profiling")
@@ -37,6 +40,7 @@ class InstrumentMiddleware(object):
         # are we in a profiler run
         if request.session.get('cprofile') and hasattr(request, 'profiler'): 
             request.profiler.disable()
+            # store the output
             tmpfolder = tempfile.tempdir
             tmpfolder = "%s%s%s" % (tmpfolder, os.sep, "profiler")
             try:
@@ -54,6 +58,7 @@ class InstrumentMiddleware(object):
         if request.session.get('cprofile') == False and hasattr(request, 'profiler'): 
             try:
                 del request.session['cprofile']
+                del request.profiler
                 log.debug("removed profiling from session")
             except KeyError:
                 pass
@@ -68,3 +73,4 @@ class InstrumentMiddleware(object):
                 ignoreable = True
                 break
         return ignoreable  
+
