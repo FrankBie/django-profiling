@@ -1,8 +1,6 @@
 Profiling APP
 -------------
-Your Django became to slow?
-
-
+Your Django became too slow?
 
 Install
 ========
@@ -30,7 +28,9 @@ Inspired by
 CacheGrinder
 ------------
 	pyprof2calltree -i logfilename.pro -k
+
 	or
+
 	pyprof2calltree -i logfilename.pro -o callgrinder.logfilename.log
 
 
